@@ -1,0 +1,128 @@
+#class
+    @startuml project
+        skinparam backgroundColor #3B3454
+        skinparam minClassWidth 100
+        skinparam defaultFontSize 15
+        skinparam defaultFontName DejaVu Sans Mono
+        skinparam DefaultMonospacedFontName Dejavu Sans Mono
+        skinparam defaultFontColor #CCABB9
+        skinparam ActorBorderColor #5C5383
+        skinparam ClassBorderColor #5C5383
+        skinparam ClassBackgroundColor #3B3454
+        skinparam ArrowColor #FF8E6B
+        skinparam RoundCorner 20
+        interface CLI << (I,#3B3454) >>
+        class Formatter << (C,#3B3454) >>
+        class Rules << (C,#3B3454) >>
+        class Rule << (C,#3B3454) >>
+        class File << (C,#3B3454) >>
+
+
+    Rules - Rule : has >
+    CLI - File : has >
+    CLI -- Formatter
+    Formatter -- Rules : has
+
+    @enduml project
+#sequence
+    @startuml sequence
+        skinparam backgroundColor #3B3454
+        skinparam minClassWidth 100
+        skinparam defaultFontSize 15
+        skinparam defaultFontName DejaVu Sans Mono
+        skinparam DefaultMonospacedFontName Dejavu Sans Mono
+        skinparam defaultFontColor #CCABB9
+        skinparam ActorBorderColor #5C5383
+        skinparam ParticipantBorderColor #5C5383
+        skinparam ParticipantBackgroundColor #3B3454
+        skinparam ArrowColor #FF8E6B
+        skinparam RoundCorner 20
+        skinparam SequenceLifeLineBorderColor #5C5383
+        skinparam SequenceLifeLineBackgroundColor #3B3454
+
+
+    Activate CLI
+    participant Formatter
+    participant Rules
+    participant Rule1
+    participant Rule2
+    Activate ProgressReporter
+    CLI -> Formatter: File
+
+    Activate Formatter
+
+    Formatter -> Rules : getNextRule()
+    Activate Rules
+
+    Rules -> Rule1
+    Activate Rule1
+
+    Rule1 -> Rules : requirement and fix
+    Deactivate Rule1
+
+    Rules -> Formatter : requirement and fix
+    Deactivate Rules
+
+    Formatter -> ProgressReporter : Rule1 done
+
+    Formatter -> Rules : getNextRule()
+    Activate Rules
+
+    Rules -> Rule2
+    Activate Rule2
+
+    Rule2 -> Rules : requirement and fix
+    Deactivate Rule2
+
+    Rules -> Formatter : requirement and fix
+    Deactivate Rules
+
+    Formatter -> ProgressReporter : Rule2 done
+
+    Formatter -> Rules : getNextRule()
+    Activate Rules
+
+    Rules -> Formatter : null
+    Deactivate Rules
+
+    Formatter -> ProgressReporter : File formatted
+    
+    Formatter -> CLI: Formatted file
+    Deactivate Formatter
+
+    @enduml sequence
+#tasks
+    @startuml tasks
+        skinparam backgroundColor #3B3454
+        skinparam minClassWidth 200
+        skinparam defaultFontSize 15
+        skinparam defaultFontName DejaVu Sans Mono
+        skinparam DefaultMonospacedFontName Dejavu Sans Mono
+        skinparam defaultFontColor #CCABB9
+        skinparam ActorBorderColor #5C5383
+        skinparam ClassBorderColor #5C5383
+        skinparam ClassBackgroundColor #3B3454
+        skinparam ArrowColor #FF8E6B
+        skinparam RoundCorner 20
+    
+    package Backlog {
+        class ReadingOptions << (T,#3B3454) >>
+        class ReadingFile << (T,#3B3454) >>
+        class RuleReading << (T,#3B3454) >>
+        class RuleChecking << (T,#3B3454) >>
+        class TextFormatting << (T,#3B3454) >>
+        class WritingNewFile << (T,#3B3454) >>
+
+        ReadingFile -[hidden]- ReadingOptions
+        ReadingOptions -[hidden]- RuleReading
+        RuleReading -[hidden]- RuleChecking
+        RuleChecking -[hidden]- TextFormatting
+        TextFormatting -[hidden]- WritingNewFile
+    }
+
+    @enduml tasks
+#Colors
+    #3B3454
+    #5C5484
+    #FF8E6B
+    #CCABB9
