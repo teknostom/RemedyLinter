@@ -1,8 +1,9 @@
 #pragma once
 #include "fstream"
 #include "string"
+#include "rules.h"
 
-class formatter{
-    formatter();
-    void formatFile(std::string file);
+class Formatter{
+    Formatter();
+    void formatFile(std::string file, Rules rules);
 };

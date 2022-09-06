@@ -54,7 +54,7 @@
     Formatter -> Rules : getNextRule()
     Activate Rules
 
-    Rules -> Rule1
+    Rules -> Rule1 : GetRule()
     Activate Rule1
 
     Rule1 -> Rules : requirement and fix
@@ -68,7 +68,7 @@
     Formatter -> Rules : getNextRule()
     Activate Rules
 
-    Rules -> Rule2
+    Rules -> Rule2 : GetRule()
     Activate Rule2
 
     Rule2 -> Rules : requirement and fix
