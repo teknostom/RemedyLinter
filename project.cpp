@@ -1,20 +1,24 @@
 #include <stdio.h>
 #include <iostream>
 #include <fstream>
+#include <string>
 int main(int argc, char **argv)
 {
-    
+    std::string filename = "";
     //Handle all flags
-    for(int i = 1; i < argc - 1; i++){
+    for(int i = 1; i < argc; i++){
         if(argv[i][0] == '-'){
             //Parse flags
 
-            //Skips the flag option
-            i++;
+        }else{
+            filename = argv[argc-1];
         }
     }
     //Handle filename;
-    std::string filename = argv[argc-1];
+    if(filename == ""){
+        std::cout << "No file specified" << std::endl;
+        std::exit(0);
+    }
     if(filename.substr(filename.length() - 4, 4) != ".tex"){
         std::cout << "The file specified is not a tex file." << std::endl;
         std::exit(0);
