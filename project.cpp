@@ -7,22 +7,26 @@ int main(int argc, char **argv)
 {
     std::string filename = "";
     std::string output = "";
+    bool debug = false;
     //Handle all flags
     for(int i = 1; i < argc; i++){
-        printf("argv[%d] = %s\n", i, argv[i]);
+        //printf("argv[%d] = %s\n", i, argv[i]);
         if(argv[i][0] == '-'){
             //Parse flags
             if(argv[i][1] == 'o'){
-        printf("argv[%d] = %s\n", i+1, argv[i+1]);
+            //printf("argv[%d] = %s\n", i+1, argv[i+1]);
                 output = argv[i+1];
                 i++;
+            }
+            if(argv[i][1] == 'd'){
+                debug = true;
             }
         }else{
             if(filename != ""){
                 std::cout << "Multiple files specified." << std::endl;
                 std::exit(0);
             }
-            filename = argv[argc-1];
+            filename = argv[i];
         }
     }
     //Handle filename;
@@ -40,17 +44,17 @@ int main(int argc, char **argv)
     std::ifstream File(filename);
     //Check if file is good:
     int k = 95;
-    // Create and open a text file
     //Read file;
     int j = 0;
 	std::string *a = new std::string[k];
     
-        std::cout << File.tellg()<< std::endl;
     while(std::getline(File, linebuffer)){
         a[j] = linebuffer;
+
         j++;
     }
     File.close();
+    if(debug == true) std::cout << "[1/1] File has been read. {" << filename << "}" << std::endl;
     std::ofstream op(output);
 
     for(int i = 0; i < k; i++){
@@ -58,5 +62,6 @@ int main(int argc, char **argv)
     }
 
     op.close();
-
+    if(debug == true) std::cout << "[1/1] File has been written. {" << output << "}" << std::endl;
+    return 0;
 }
