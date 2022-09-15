@@ -2,15 +2,26 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <vector>
 int main(int argc, char **argv)
 {
     std::string filename = "";
+    std::string output = "";
     //Handle all flags
     for(int i = 1; i < argc; i++){
+        printf("argv[%d] = %s\n", i, argv[i]);
         if(argv[i][0] == '-'){
             //Parse flags
-
+            if(argv[i][1] == 'o'){
+        printf("argv[%d] = %s\n", i+1, argv[i+1]);
+                output = argv[i+1];
+                i++;
+            }
         }else{
+            if(filename != ""){
+                std::cout << "Multiple files specified." << std::endl;
+                std::exit(0);
+            }
             filename = argv[argc-1];
         }
     }
@@ -28,12 +39,24 @@ int main(int argc, char **argv)
     std::string linebuffer;
     std::ifstream File(filename);
     //Check if file is good:
-    if(!File.is_open()){
-        std::cout << "The file was not found." << std::endl;
-        std::exit(0);
-    }
+    int k = 95;
+    // Create and open a text file
     //Read file;
-    while(getline(File,linebuffer)){
-        std::cout << linebuffer << std::endl;
+    int j = 0;
+	std::string *a = new std::string[k];
+    
+        std::cout << File.tellg()<< std::endl;
+    while(std::getline(File, linebuffer)){
+        a[j] = linebuffer;
+        j++;
     }
- }
+    File.close();
+    std::ofstream op(output);
+
+    for(int i = 0; i < k; i++){
+        op << a[i] << ((i+2>=k) ? "" : "\n");
+    }
+
+    op.close();
+
+}

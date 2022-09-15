@@ -1,4 +1,8 @@
 /.vscode
+/.vs
 /test.tex
+/test1.tex
 /a.out
+/a.exe
+/project.exe
 /latexLinter.exe
