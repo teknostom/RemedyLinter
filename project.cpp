@@ -8,7 +8,9 @@ int main(int argc, char **argv)
     std::string filename = "";
     std::string output = "";
     bool debug = false;
+    bool help = false;
     //Handle all flags
+    if(argc == 1) help = true;
     for(int i = 1; i < argc; i++){
         //printf("argv[%d] = %s\n", i, argv[i]);
         if(argv[i][0] == '-'){
@@ -21,6 +23,9 @@ int main(int argc, char **argv)
             if(argv[i][1] == 'd'){
                 debug = true;
             }
+            if(argv[i][1] == 'h'){
+                help = true;
+            }
         }else{
             if(filename != ""){
                 std::cout << "Multiple files specified." << std::endl;
@@ -28,6 +33,13 @@ int main(int argc, char **argv)
             }
             filename = argv[i];
         }
+    }
+    if(help){
+        std::cout <<    "This is the help command." << std::endl <<
+                        "-o: Enter a filename after this flag to specify output." << std::endl <<
+                        "-d: This flag allows debug mode to be set." << std::endl <<
+                        "-h: This flag shows the help menu, it cannot be used in execution." << std::endl;
+        std::exit(0);
     }
     //Handle filename;
     if(filename == ""){
