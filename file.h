@@ -44,7 +44,7 @@ public:
     }
 
     std::string addtoline(int i, int c, std::string addition){
-        if(c +r< f[i].length()){
+        if(c +r < f[i].length()){
             f[i] = f[i].substr(0,c+r) + addition + "" + f[i].substr(c+r);
             r++;
         }

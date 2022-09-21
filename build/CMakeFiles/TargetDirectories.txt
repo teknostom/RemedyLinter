@@ -1,0 +1,5 @@
+C:/Users/evald/Desktop/Cpp/cpp/build/CMakeFiles/linter.dir
+C:/Users/evald/Desktop/Cpp/cpp/build/CMakeFiles/testing.dir
+C:/Users/evald/Desktop/Cpp/cpp/build/CMakeFiles/PACKAGE.dir
+C:/Users/evald/Desktop/Cpp/cpp/build/CMakeFiles/RUN_TESTS.dir
+C:/Users/evald/Desktop/Cpp/cpp/build/CMakeFiles/ALL_BUILD.dir

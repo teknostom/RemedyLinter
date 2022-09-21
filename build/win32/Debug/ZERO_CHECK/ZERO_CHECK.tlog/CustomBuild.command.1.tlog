@@ -1,0 +1,10 @@
+^C:\USERS\EVALD\DESKTOP\CPP\CPP\BUILD\CMAKEFILES\36C2594E2437028282E70E7EAC36BA67\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SC:/Users/evald/Desktop/Cpp/cpp -BC:/Users/evald/Desktop/Cpp/cpp/build --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file C:/Users/evald/Desktop/Cpp/cpp/build/linter.sln
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
