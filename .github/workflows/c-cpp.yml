@@ -9,23 +9,7 @@ jobs:
     runs-on: windows-latest
     name: Run MSBuild and VSTest
     steps:
-    - uses: lukka/get-cmake@latest
-    - name: Checkout code
-      uses: actions/checkout@v2.1.0
-    - name: run-cmake
-      uses: lukka/run-cmake@v10.0
-    - name: Run CMake consuming CMakePresets.json and vcpkg.json by mean of vcpkg.
-      uses: lukka/run-cmake@v10
-      with:
-          # This is the default path to the CMakeLists.txt along side the
-          # CMakePresets.json. Change if you need have CMakeLists.txt and CMakePresets.json
-          # located elsewhere.
-          # cmakeListsTxtPath: '${{ github.workspace }}/CMakeLists.txt'
-
-          # This is the name of the CMakePresets.json's configuration to use to generate
-          # the project files. This configuration leverages the vcpkg.cmake toolchain file to
-          # run vcpkg and install all dependencies specified in vcpkg.json.
-        configurePreset: 'ninja-multi-vcpkg'
-
-          # This is the name of the CMakePresets.json's configuration to build the project.
-        buildPreset: 'ninja-multi-vcpkg'
+    - name: cmake-configure
+      # You may pin to the exact commit or the version.
+      # uses: snickerbockers/cmake-configure@34c25d17135428976b13963a8e5e3b1b0b277fd1
+      uses: snickerbockers/cmake-configure@prerel1
