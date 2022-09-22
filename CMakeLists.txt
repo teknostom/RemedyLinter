@@ -6,6 +6,6 @@ set(CMAKE_SUPPRESS_REGENERATION true)
 include(CTest)
 enable_testing()
 
-add_executable(linter ./src/project.cpp)
+add_executable(linter ./project.cpp)
 
-add_executable(testing ./src/tests/tests.cpp)
+add_executable(testing ./tests/tests.cpp)

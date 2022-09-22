@@ -249,7 +249,7 @@
     </ProjectReference>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="C:\Users\evald\Desktop\Cpp\cpp\src\tests\tests.cpp" />
+    <ClCompile Include="C:\Users\evald\Desktop\Cpp\cpp\tests\tests.cpp" />
   </ItemGroup>
   <ItemGroup>
   </ItemGroup>
