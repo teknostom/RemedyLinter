@@ -7,15 +7,51 @@ unsigned int Factorial( unsigned int number ) {
     return number <= 1 ? number : Factorial(number-1)*number;
 }
 
-TEST_CASE( "Rules are done correctly", "[rules]" ) {
+TEST_CASE( "NewLine after .", "[rules]" ) {
     file f = file();
     Formatter fo = Formatter();
     Rules r = Rules("test");
-    f.addline("This.Is.A.Test");
+    f.addline("This.Is.A.Test.");
     fo.formatFile(f,r);
     for(int i = 0; i < 14; i++){
         if(f.getline(0).at(i) == '.'){
             REQUIRE(f.getline(0).at(i+1) == '\n');
+        }
+    }
+}
+TEST_CASE( "NewLine after !", "[rules]" ) {
+    file f = file();
+    Formatter fo = Formatter();
+    Rules r = Rules("test");
+    f.addline("This!Is!A!Test!");
+    fo.formatFile(f,r);
+    for(int i = 0; i < 14; i++){
+        if(f.getline(0).at(i) == '.'){
+            REQUIRE(f.getline(0).at(i+1) == '\n');
+        }
+    }
+}
+TEST_CASE( "NewLine after ?", "[rules]" ) {
+    file f = file();
+    Formatter fo = Formatter();
+    Rules r = Rules("test");
+    f.addline("This?Is?A?Test?");
+    fo.formatFile(f,r);
+    for(int i = 0; i < 14; i++){
+        if(f.getline(0).at(i) == '.'){
+            REQUIRE(f.getline(0).at(i+1) == '\n');
+        }
+    }
+}
+TEST_CASE( "Space after %", "[rules]"){
+    file f = file();
+    Formatter fo = Formatter();
+    Rules r = Rules("test");
+    f.addline("This?Is?A?Test? %This Is A Comment");
+    fo.formatFile(f,r);
+    for(int i = 0; i < 14; i++){
+        if(f.getline(0).at(i) == '%'){
+            REQUIRE(f.getline(0).at(i+1) == ' ');
         }
     }
 }

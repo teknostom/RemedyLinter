@@ -12,6 +12,10 @@ public:
     Rules(std::string file){
         r[0] = Rule(0, ".", 0, "\n");
         rules++;
+        r[0] = Rule(0, "?", 0, "\n");
+        rules++;
+        r[0] = Rule(0, "!", 0, "\n");
+        rules++;
     }
     // Acesses the next rule and gets the string
     Rule getNextRule(){
