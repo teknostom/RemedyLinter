@@ -12,16 +12,16 @@ public:
     Rules(std::string file){
         r[0] = Rule(0, ".", 0, "\n");
         rules++;
-        r[0] = Rule(0, "?", 0, "\n");
+        r[1] = Rule(0, "?", 0, "\n");
         rules++;
-        r[0] = Rule(0, "!", 0, "\n");
+        r[2] = Rule(0, "!", 0, "\n");
         rules++;
     }
     // Acesses the next rule and gets the string
     Rule getNextRule(){
         if(i <= rules){
-            return r[i];
             i++;
+            return r[i-1];
         }
         std::cout << "ERROR: Reached unexpected rule";
         exit(0);
