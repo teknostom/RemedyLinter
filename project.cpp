@@ -1,3 +1,4 @@
+// Tom Evaldsson PAGPT21 PA1414 LP1 2022
 #include <stdio.h>
 #include <iostream>
 #include <fstream>
@@ -12,12 +13,12 @@ int main(int argc, char **argv)
 {
     auto start = std::chrono::steady_clock::now();
     std::string filename = "";
-    std::string output = "";
+    std::string output = "output.tex";
     bool timer = false;
     bool debug = false;
     bool help = false;
     //Handle all flags
-    if(argc == 1) help = true;
+    if(argc <= 1) help = true;
     for(int i = 1; i < argc; i++){
         if(argv[i][0] == '-'){
             //Parse flags
@@ -49,6 +50,7 @@ int main(int argc, char **argv)
         const wchar_t line = L'\x2574';
         std::wcout <<    "This is the help command." << std::endl <<
                         MID << line << "-o: Enter a filename after this flag to specify output." << std::endl <<
+                        MID << line << "-t: This flag allows timer to be shown." << std::endl <<
                         MID << line << "-d: This flag allows debug mode to be set." << std::endl <<
                         END << line << "-h: This flag shows the help menu, it cannot be used in execution." << std::endl;
         std::exit(0);
@@ -68,15 +70,12 @@ int main(int argc, char **argv)
     std::ifstream File(filename);
     //Check if file is good:
     int k = 95;
+
     //Read file;
-    //int j = 0;
     auto startin = std::chrono::steady_clock::now();
     file fi = file();
-	//std::string *a = new std::string[k];
     while(std::getline(File, linebuffer)){
         fi.addline(linebuffer);
-        //a[j] = linebuffer;
-        //j++;
     }
     File.close();
     auto endin = std::chrono::steady_clock::now();
@@ -105,9 +104,9 @@ int main(int argc, char **argv)
     _setmode(_fileno(stdout), _O_U8TEXT);
     if(timer == true)std::wcout << "Total:        "
         << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << " ms" << std::endl
-        << "reading:      " << MID << std::chrono::duration_cast<std::chrono::milliseconds>(endou - startou).count() << " ms" << std::endl
+        << "reading:      " << MID << std::chrono::duration_cast<std::chrono::milliseconds>(endin - startin).count() << " ms" << std::endl
         << "formatting:   " << MID << std::chrono::duration_cast<std::chrono::milliseconds>(endfo - startfo).count() << " ms" << std::endl
-        << "outputting:   " << END << std::chrono::duration_cast<std::chrono::milliseconds>(endin - startin).count()
+        << "outputting:   " << END << std::chrono::duration_cast<std::chrono::milliseconds>(endou - startou).count()
         << " ms" << std::endl;
     return 0;
 }
