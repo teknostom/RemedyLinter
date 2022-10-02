@@ -10,7 +10,7 @@ TEST_CASE( "NewLine after .", "[rules]" ) {
     Rules r = Rules("test");
     f.addline("This.Is.A.Test");
     fo.formatFile(f,r);
-    for(int i = 0; i < f.getline(0).length(); i++){
+    for(int i = 0; i < (int)f.getline(0).length(); i++){
         if(f.getline(0).at(i) == '.'){
             REQUIRE(f.getline(0).at(i+1) == '\n');
         }
@@ -22,7 +22,7 @@ TEST_CASE( "NewLine after !", "[rules]" ) {
     Rules r = Rules("test");
     f.addline("This!Is!A!Test");
     fo.formatFile(f,r);
-    for(int i = 0; i < f.getline(0).length(); i++){
+    for(int i = 0; i < (int)f.getline(0).length(); i++){
         if(f.getline(0).at(i) == '!'){
             REQUIRE(f.getline(0).at(i+1) == '\n');
         }
@@ -34,9 +34,29 @@ TEST_CASE( "NewLine after ?", "[rules]" ) {
     Rules r = Rules("test");
     f.addline("This?Is?A?Test");
     fo.formatFile(f,r);
-    for(int i = 0; i < f.getline(0).length(); i++){
+    for(int i = 0; i < (int)f.getline(0).length(); i++){
         if(f.getline(0).at(i) == '?'){
             REQUIRE(f.getline(0).at(i+1) == '\n');
+        }
+    }
+}
+
+TEST_CASE( "Not Newline after %", "[rules]" ) {
+    file f = file();
+    Formatter fo = Formatter();
+    Rules r = Rules("test");
+    f.addline("This.Is.A%.Test");
+    fo.formatFile(f,r);
+    bool stopped = false;
+    for(int i = 0; i < (int)f.getline(0).length(); i++){
+        if(!stopped && f.getline(0).at(i) == '.'){
+            REQUIRE(f.getline(0).at(i+1) == '\n');
+        }
+        if(stopped && f.getline(0).at(i) == '.'){
+            REQUIRE(f.getline(0).at(i+1) != '\n');
+        }
+        if(f.getline(0).at(i) == '%'){
+            stopped = true;
         }
     }
 }

@@ -10,11 +10,13 @@ public:
     int i = 0;
     int rules = 0;
     Rules(std::string file){
-        r[0] = Rule(0, ".", 0, "\n");
+        r[0] = Rule(0, ".", 0, "\n", 0, "%");
         rules++;
-        r[1] = Rule(0, "?", 0, "\n");
+        r[1] = Rule(0, "?", 0, "\n", 0, "%");
         rules++;
-        r[2] = Rule(0, "!", 0, "\n");
+        r[2] = Rule(0, "!", 0, "\n", 0, "%");
+        rules++;
+        r[3] = Rule(0, "%", 0, " ", 0, "%");
         rules++;
     }
     // Acesses the next rule and gets the string
