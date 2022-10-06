@@ -148,7 +148,6 @@ public:
         if(rules+1>=rulespace){
             addRuleSpace();
         }
-        std::cout<< rule << std::endl;
         r[rules] = Rule(ruletype, rule, fixtype, fix, stoptype, stoptrigger);
         rules++;
     }
