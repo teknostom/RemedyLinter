@@ -3,9 +3,10 @@ project(linter VERSION 0.1.0)
 set_property(GLOBAL PROPERTY CTEST_TARGETS_ADDED 1)
 set(CMAKE_SUPPRESS_REGENERATION true) 
 
-include(CTest)
 enable_testing()
+include(CTest)
 
-add_executable(linter ./project.cpp)
+add_executable(remedy ./project.cpp)
 
 add_executable(testing ./tests/tests.cpp)
+add_test(NAME TestName COMMAND C:\\Users\\evald\\Desktop\\Cpp\\cpp\\build\\Debug\\testing.exe)

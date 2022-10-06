@@ -1,11 +1,12 @@
 // Tom Evaldsson PAGPT21 PA1414 LP1 2022
+
 #include <stdio.h>
 #include <iostream>
 #include <fstream>
 #include <string>
 #include <vector>
-#include "formatter.h"
-#include "Rules.h"
+#include "headerfiles/formatter.h"
+#include "headerfiles/Rules.h"
 #include "io.h"
 #include "fcntl.h"
 #include <chrono>
@@ -64,6 +65,8 @@ int main(int argc, char **argv)
         std::cout << "The file specified is not a tex file." << std::endl;
         std::exit(0);
     }
+    
+    
 
     //Setup file reading
     std::string linebuffer;
@@ -81,20 +84,19 @@ int main(int argc, char **argv)
     auto endin = std::chrono::steady_clock::now();
     
 
-    Rules r = Rules("config.json");
+    Rules r = Rules("config1.json");
     Formatter f = Formatter();
     auto startfo = std::chrono::steady_clock::now();
     f.formatFile(fi, r);
     auto endfo = std::chrono::steady_clock::now();
-    //a = f.formatFile(a, 14, r);
-
+    
+    //all output
     std::ofstream op(output);
     auto startou = std::chrono::steady_clock::now();
-
     for(int i = 0; i < fi.getlinecount(); i++){
         op << fi.getline(i) << ((i+2>=k) ? "" : "\n");
     }
-
+    
 	const wchar_t MID = L'\x251C';
 	const wchar_t END = L'\x2514';
     op.close();
