@@ -2,10 +2,10 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "Debug/linter.exe"
+			"path" : "RelWithDebInfo/remedy.exe"
 		},
 		{
-			"path" : "Debug/linter.pdb"
+			"path" : "RelWithDebInfo/remedy.pdb"
 		}
 	],
 	"backtrace" : 1,
@@ -38,7 +38,7 @@
 			"compileCommandFragments" : 
 			[
 				{
-					"fragment" : "/DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1"
+					"fragment" : "/DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /Zi /O2 /Ob1 /DNDEBUG"
 				}
 			],
 			"language" : "CXX",
@@ -48,13 +48,13 @@
 			]
 		}
 	],
-	"id" : "linter::@6890427a1f51a3e7e1df",
+	"id" : "remedy::@6890427a1f51a3e7e1df",
 	"link" : 
 	{
 		"commandFragments" : 
 		[
 			{
-				"fragment" : "/DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1",
+				"fragment" : "/DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /Zi /O2 /Ob1 /DNDEBUG",
 				"role" : "flags"
 			},
 			{
@@ -68,8 +68,8 @@
 		],
 		"language" : "CXX"
 	},
-	"name" : "linter",
-	"nameOnDisk" : "linter.exe",
+	"name" : "remedy",
+	"nameOnDisk" : "remedy.exe",
 	"paths" : 
 	{
 		"build" : ".",
