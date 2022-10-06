@@ -117,20 +117,11 @@ public:
         }
         Json::Value json;
         Json::Reader reader;
-        bool isValid = reader.parse(rulesettings, json);
-        if(!isValid){
-            std::cout << "Config file is not Valid JSON" << std::endl;
-            exit(0); 
-        }
+        reader.parse(rulesettings, json);
         for(int i = 0; i < (int)json["Rules"].size(); i++){
             addRule(json["Rules"][i]["problemtype"].asInt(),json["Rules"][i]["problem"].asString(),json["Rules"][i]["fixtype"].asInt(),json["Rules"][i]["fix"].asString(),json["Rules"][i]["stoptype"].asInt(),json["Rules"][i]["stop"].asString());
         }
-        if(rules == 0){
-            std::cout << "Config file did not have any valid rules" << std::endl;
-            exit(0); 
-        }
         rulesettings.close();
-        
         /*
         std::cout << "JSON: " << json["Rules"][0];
         addRule(0, " ", 3, "", 1, "\t");

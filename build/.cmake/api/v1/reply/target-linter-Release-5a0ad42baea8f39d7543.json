@@ -2,10 +2,10 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "Release/remedy.exe"
+			"path" : "Release/linter.exe"
 		},
 		{
-			"path" : "Release/remedy.pdb"
+			"path" : "Release/linter.pdb"
 		}
 	],
 	"backtrace" : 1,
@@ -48,7 +48,7 @@
 			]
 		}
 	],
-	"id" : "remedy::@6890427a1f51a3e7e1df",
+	"id" : "linter::@6890427a1f51a3e7e1df",
 	"link" : 
 	{
 		"commandFragments" : 
@@ -68,8 +68,8 @@
 		],
 		"language" : "CXX"
 	},
-	"name" : "remedy",
-	"nameOnDisk" : "remedy.exe",
+	"name" : "linter",
+	"nameOnDisk" : "linter.exe",
 	"paths" : 
 	{
 		"build" : ".",

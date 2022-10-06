@@ -17,7 +17,7 @@
 	"dependencies" : 
 	[
 		{
-			"id" : "remedy::@6890427a1f51a3e7e1df"
+			"id" : "linter::@6890427a1f51a3e7e1df"
 		},
 		{
 			"id" : "testing::@6890427a1f51a3e7e1df"
