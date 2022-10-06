@@ -15,6 +15,7 @@ int main(int argc, char **argv)
     auto start = std::chrono::steady_clock::now();
     std::string filename = "";
     std::string output = "output.tex";
+    std::string config = "config.json";
     bool timer = false;
     bool debug = false;
     bool help = false;
@@ -36,6 +37,10 @@ int main(int argc, char **argv)
             if(argv[i][1] == 'h'){
                 help = true;
             }
+            if(argv[i][1] == 'c'){
+                config = argv[i+1];
+                i++;
+            }
         }else{
             if(filename != ""){
                 std::cout << "Multiple files specified." << std::endl;
@@ -51,6 +56,7 @@ int main(int argc, char **argv)
         const wchar_t line = L'\x2574';
         std::wcout <<    "This is the help command." << std::endl <<
                         MID << line << "-o: Enter a filename after this flag to specify output." << std::endl <<
+                        MID << line << "-c: Enter a filename after this flag to specify config." << std::endl <<
                         MID << line << "-t: This flag allows timer to be shown." << std::endl <<
                         MID << line << "-d: This flag allows debug mode to be set." << std::endl <<
                         END << line << "-h: This flag shows the help menu, it cannot be used in execution." << std::endl;
@@ -84,7 +90,7 @@ int main(int argc, char **argv)
     auto endin = std::chrono::steady_clock::now();
     
 
-    Rules r = Rules("config1.json");
+    Rules r = Rules(config);
     Formatter f = Formatter();
     auto startfo = std::chrono::steady_clock::now();
     f.formatFile(fi, r);
