@@ -9,4 +9,3 @@ include(CTest)
 add_executable(remedy ./project.cpp)
 
 add_executable(testing ./tests/tests.cpp)
-add_test(NAME TestName COMMAND C:\\Users\\evald\\Desktop\\Cpp\\cpp\\build\\Debug\\testing.exe)
