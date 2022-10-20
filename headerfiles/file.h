@@ -36,33 +36,50 @@ public:
 
     std::string getline(int i){
         r = 0;
-        if(i < l && l >= 0){
             return f[i];
+        if(i < l && l >= 0){
         }
         std::cout << "ERROR: line out of range";
         exit(0);
     }
 
-    std::string addtoline(int i, int c, std::string addition){
-        if(c +r < (int)f[i].length()){
-            f[i] = f[i].substr(0,c+r) + addition + "" + f[i].substr(c+r);
+    std::string addtoline(int line, int c, std::string addition){
+        if(addition == "\n"){
+            if(l>=maxLines){
+                expandStorage();
+            }
+            for(int i = l; i > line; i--)   {
+                f[i+1] = f[i];
+            }
+            f[line+1] = f[line].substr(c+r);
+            f[line] = f[line].substr(0,c+r);
+            r++;
+            l++;
+            return getline(line);
+        }
+        if(c +r < (int)f[line].length()){
+            f[line] = f[line].substr(0,c+r) + addition + "" + f[line].substr(c+r);
             r++;
         }
-        if(c+r >= (int)f[i].length()){
-            f[i] += addition;
+        if(c+r >= (int)f[line].length()){
+            f[line] += addition;
         }
-        return getline(i);
+        return getline(line);
     }
 
-    std::string removefromline(int i, int c){
+    std::string removefromline(int i, int c, int l = 1){
         if(c == 0){
             f[i] = f[i].substr(1);
         }
         else if(c+r < (int)f[i].length()){
-            f[i] = f[i].substr(0,c) + "" + f[i].substr(c+1);
+            f[i] = f[i].substr(0,c) + "" + f[i].substr(c+l);
             r--;
         }
         return getline(i);
+    }
+
+    void reset(){
+        delete[] f;
     }
 
     void addline(int lineNumber) {
@@ -70,11 +87,10 @@ public:
         if(l>=maxLines){
             expandStorage();
         }     
-        for(int i = lineNumber; i <= l; i++)   {
+        for(int i = l; i > lineNumber; i--)   {
             f[i+1] = f[i];
         }
         f[lineNumber] = "";
-        l++;
         std::cout << this->getline(0) << std::endl;
         /*if(l>=maxLines){
             expandStorage();

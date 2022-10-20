@@ -12,7 +12,6 @@
 #include <chrono>
 int main(int argc, char **argv)
 {
-    auto start = std::chrono::steady_clock::now();
     std::string filename = "";
     std::string output = "output.tex";
     std::string config = "config.json";
@@ -74,6 +73,8 @@ int main(int argc, char **argv)
     
     
 
+    auto start = std::chrono::steady_clock::now();
+    auto startin = std::chrono::steady_clock::now();
     //Setup file reading
     std::string linebuffer;
     std::ifstream File(filename);
@@ -81,27 +82,30 @@ int main(int argc, char **argv)
     int k = 95;
 
     //Read file;
-    auto startin = std::chrono::steady_clock::now();
-    file fi = file();
+    file workingfile = file();
+
     while(std::getline(File, linebuffer)){
-        fi.addline(linebuffer);
+        workingfile.addline(linebuffer);
     }
     File.close();
-    auto endin = std::chrono::steady_clock::now();
-    
+    if(debug == true) std::cout << "[1/1] File has been read. {" << filename << "}" << std::endl;
 
+    //format file
     Rules r = Rules(config);
     Formatter f = Formatter();
+    auto endin = std::chrono::steady_clock::now();
     auto startfo = std::chrono::steady_clock::now();
-    f.formatFile(fi, r);
+    workingfile = f.formatFile(workingfile, r, debug);
     auto endfo = std::chrono::steady_clock::now();
     
     //all output
-    std::ofstream op(output);
     auto startou = std::chrono::steady_clock::now();
-    for(int i = 0; i < fi.getlinecount(); i++){
-        op << fi.getline(i) << ((i+2>=k) ? "" : "\n");
+    std::ofstream op(output);
+    
+    for(int i = 0; i < workingfile.getlinecount(); i++){
+        op << workingfile.getline(i) << ((i>=workingfile.getlinecount()) ? "" : "\n");
     }
+    workingfile.reset();
     
 	const wchar_t MID = L'\x251C';
 	const wchar_t END = L'\x2514';

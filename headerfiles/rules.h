@@ -123,6 +123,26 @@ public:
             exit(0); 
         }
         for(int i = 0; i < (int)json["Rules"].size(); i++){
+            if(json["Rules"][i]["problemtype"] == "READ_ALL")
+                json["Rules"][i]["problemtype"] = 0; 
+            if(json["Rules"][i]["problemtype"] == "READ_ALL_RUNNING_COUNT")
+                json["Rules"][i]["problemtype"] = 1;
+            if(json["Rules"][i]["fixtype"] == "FIX_AT_PROBLEM")
+                json["Rules"][i]["fixtype"] = 0;
+            if(json["Rules"][i]["fixtype"] == "FIX_AT_START")
+                json["Rules"][i]["fixtype"] = 1;
+            if(json["Rules"][i]["fixtype"] == "FIX_AT_END")
+                json["Rules"][i]["fixtype"] = 2;
+            if(json["Rules"][i]["fixtype"] == "REPLACE_AT_PROBLEM")
+                json["Rules"][i]["fixtype"] = 3;
+            if(json["Rules"][i]["stoptype"] == "STOP_AT_MATCH")
+                json["Rules"][i]["stoptype"] = 0;
+            if(json["Rules"][i]["stoptype"] == "SKIP_AT_MATCH")
+                json["Rules"][i]["stoptype"] = 1;
+            if(json["Rules"][i]["stoptype"] == "DONT_STOP")
+                json["Rules"][i]["stoptype"] = 2;
+        }
+        for(int i = 0; i < (int)json["Rules"].size(); i++){
             addRule(json["Rules"][i]["problemtype"].asInt(),json["Rules"][i]["problem"].asString(),json["Rules"][i]["fixtype"].asInt(),json["Rules"][i]["fix"].asString(),json["Rules"][i]["stoptype"].asInt(),json["Rules"][i]["stop"].asString());
         }
         if(rules == 0){

@@ -1,0 +1,108 @@
+{ 
+    "Rules" : [
+    { 
+        "problemtype": "READ_ALL",
+        "problem": " ",
+        "fixtype": "REPLACE_AT_PROBLEM",
+        "fix": "",
+        "stoptype": "SKIP_AT_MATCH",
+        "stop": "\t"
+    },
+    { 
+        "problemtype": "READ_ALL",
+        "problem": "\t",
+        "fixtype": "REPLACE_AT_PROBLEM",
+        "fix": "",
+        "stoptype": "SKIP_AT_MATCH",
+        "stop": " "
+    },
+    { 
+        "problemtype": "READ_ALL",
+        "problem": "% ",
+        "fixtype": "REPLACE_AT_PROBLEM",
+        "fix": "%",
+        "stoptype": "DONT_STOP",
+        "stop": ""
+    },
+    { 
+        "problemtype": "READ_ALL",
+        "problem": " %",
+        "fixtype": "REPLACE_AT_PROBLEM",
+        "fix": "%",
+        "stoptype": "DONT_STOP",
+        "stop": ""
+    },
+    { 
+        "problemtype": "READ_ALL",
+        "problem": "%\t",
+        "fixtype": "REPLACE_AT_PROBLEM",
+        "fix": "%",
+        "stoptype": "DONT_STOP",
+        "stop": ""
+    },
+    { 
+        "problemtype": "READ_ALL",
+        "problem": "\t%",
+        "fixtype": "REPLACE_AT_PROBLEM",
+        "fix": "%",
+        "stoptype": "DONT_STOP",
+        "stop": ""
+    },
+    { 
+        "problemtype": "READ_ALL",
+        "problem": ". ",
+        "fixtype": "FIX_AT_PROBLEM",
+        "fix": "\n",
+        "stoptype": "STOP_AT_MATCH",
+        "stop": "%"
+    },
+    { 
+        "problemtype": "READ_ALL",
+        "problem": "?",
+        "fixtype": "FIX_AT_PROBLEM",
+        "fix": "\n",
+        "stoptype": "STOP_AT_MATCH",
+        "stop": "%"
+    },
+    { 
+        "problemtype": "READ_ALL",
+        "problem": "!",
+        "fixtype": "FIX_AT_PROBLEM",
+        "fix": "\n",
+        "stoptype": "STOP_AT_MATCH",
+        "stop": "%"
+    },
+    { 
+        "problemtype": "READ_ALL",
+        "problem": "%",
+        "fixtype": "REPLACE_AT_PROBLEM",
+        "fix": " % ",
+        "stoptype": "STOP_AT_MATCH",
+        "stop": "%"
+    },
+    { 
+        "problemtype": "READ_ALL",
+        "problem": "\\section",
+        "fixtype": "FIX_AT_START",
+        "fix": "\n",
+        "stoptype": "STOP_AT_MATCH",
+        "stop": "%"
+    },
+    { 
+        "problemtype": "READ_ALL",
+        "problem": "\\chapter",
+        "fixtype": "FIX_AT_START",
+        "fix": "\n",
+        "stoptype": "STOP_AT_MATCH",
+        "stop": "%"
+    },
+    { 
+        "problemtype": "READ_ALL_RUNNING_COUNT",
+        "problem": "\\begin \\end",
+        "fixtype": "FIX_AT_START",
+        "fix": "\n",
+        "stoptype": "STOP_AT_MATCH",
+        "stop": "%"
+    }
+    ]
+}
