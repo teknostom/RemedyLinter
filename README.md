@@ -31,6 +31,8 @@
 <details>
   <summary>Advanced Usage</summary>
 
+A config file is generated when running the code for the first time.
+
 ### Configuring:
 | Problem type           | Fix type:          | Stoptype:     |
 |:----------------------:|:------------------:|:-------------:|
