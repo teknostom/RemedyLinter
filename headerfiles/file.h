@@ -22,7 +22,7 @@ public:
         f = temp;
     }
 
-    void addline(std::string line){
+    void addLine(std::string line){
         if(l>=maxLines){
             expandStorage();
         }
@@ -53,7 +53,7 @@ public:
             }
             f[line+1] = f[line].substr(c+r);
             f[line] = f[line].substr(0,c+r);
-            r++;
+            //r++;
             l++;
             return getline(line);
         }
@@ -78,11 +78,16 @@ public:
         return getline(i);
     }
 
-    void reset(){
+    void del(){
         delete[] f;
     }
 
-    void addline(int lineNumber) {
+    void reset(){
+        del();
+        f = new std::string[maxLines];
+    }
+
+    void addLine(int lineNumber) {
         if(lineNumber>=l) return void();
         if(l>=maxLines){
             expandStorage();
@@ -91,6 +96,7 @@ public:
             f[i+1] = f[i];
         }
         f[lineNumber] = "";
+        l++;
         std::cout << this->getline(0) << std::endl;
         /*if(l>=maxLines){
             expandStorage();
@@ -98,4 +104,30 @@ public:
         f[l] = line;
         l++;*/
     }
+
+    void ReadFile(std::string filename) {
+        std::string lineBuffer;
+        reset();
+        
+        std::ifstream File(filename);
+        if(!File.is_open()){
+            std::cout << "File error" << std::endl;
+            exit(0);
+        }
+        while(std::getline(File, lineBuffer)){
+            addLine(lineBuffer);
+        }
+        File.close();
+    }
+
+    void WriteFile(std::string filename) {
+        std::ofstream op(filename);
+        
+        for(int i = 0; i < getlinecount(); i++){
+            op << getline(i) << ((i>=getlinecount()) ? "" : "\n");
+
+        }
+        op.close();
+    }
+
 };

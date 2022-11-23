@@ -5,6 +5,7 @@
 #include "rules.h"
 #include "rule.h"
 #include "file.h"
+#include "progress.h"
 
 class Formatter{
     public:
@@ -20,12 +21,12 @@ std::string fileToString(file input){
     Formatter(){
 
     };
-    file formatFile(file f, Rules rules, bool debug = false){
+    file formatFile(file f, Rules rules, Progress prog, bool debug = false){
         // Loop through all Rules
         for(int rule = 0; rule < rules.getNumOfRules(); rule++){
-            if(debug)
-                std::cout << "["<<rule+1<<"/" << rules.getNumOfRules() <<"] Rules have been formatted. "<< ((rule+1 < rules.getNumOfRules()) ? "\r" : "\n");
-
+            //if(debug)
+              //  std::cout << "["<<rule+1<<"/" << rules.getNumOfRules() <<"] Rules have been formatted. "<< ((rule+1 < rules.getNumOfRules()) ? "\r" : "\n");
+            prog.PrintRule(rule+1);
             // Get current rule
             Rule currentrule = rules.getNextRule();
             // Check if the current rule is of type replace
@@ -61,6 +62,7 @@ std::string fileToString(file input){
                                 case 1:
                                     linepos+=currentrule.problem.length();
                                     line = f.addtoline(currentline, 0, currentrule.fix);
+                                    currentline++;
                                     break;
                                 // Add at end of line
                                 case 2:

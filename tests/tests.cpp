@@ -22,15 +22,17 @@ file formatText(std::string s){
     file f = file();
     Formatter fo = Formatter();
     Rules r = getrules();
-    f.addline(s);
-    fo.formatFile(f,r);
+    Progress p = Progress(false, false);
+    f.addLine(s);
+    fo.formatFile(f,r, p);
     return f;
 }
 
 file formatText(file input){
     Formatter fo = Formatter();
     Rules r = getrules();
-    fo.formatFile(input,r);
+    Progress p = Progress(false, false);
+    fo.formatFile(input,r,p);
     return input;
 }
 
@@ -83,7 +85,8 @@ TEST_CASE( "tab should not exist before text", "[rules]" ){
 TEST_CASE( "Newlines with .", "[rules]" ){
     SECTION("Simple . with space after"){
         file result = formatText(". ");
-        REQUIRE(result.getline(0) == ". \n");
+        REQUIRE(result.getline(0) == ". ");
+        REQUIRE(result.getline(1) == "");
     }   
     SECTION("No NewLine after . with no space after"){  
         file result = formatText(".");
@@ -99,38 +102,51 @@ TEST_CASE( "Newlines with .", "[rules]" ){
     }
     SECTION("NewLine after . after long scentence"){
         file result = formatText("This is a simulated long scentence that is just for testing purposes, if you intend to derive meaning from this, you are doing it wrong. ");
-        REQUIRE(result.getline(0) == "This is a simulated long scentence that is just for testing purposes, if you intend to derive meaning from this, you are doing it wrong. \n");
+        REQUIRE(result.getline(0) == "This is a simulated long scentence that is just for testing purposes, if you intend to derive meaning from this, you are doing it wrong. ");
+        REQUIRE(result.getline(1) == "");
     }
     SECTION("NewLine after . multiple in one line"){
         file result = formatText(". . . ");
-        REQUIRE(result.getline(0) == ". \n. \n. \n");
+        REQUIRE(result.getline(0) == ". ");
+        REQUIRE(result.getline(1) == ". ");
+        REQUIRE(result.getline(2) == ". ");
+        REQUIRE(result.getline(3) == "");
     }
 }
 
 TEST_CASE( "NewLine after !", "[rules]" ) {
     SECTION("Simple ! with space after"){
         file result = formatText("! ");
-        REQUIRE(result.getline(0) == "!\n ");
+        REQUIRE(result.getline(0) == "!");
+        REQUIRE(result.getline(1) == " ");
     }   
     SECTION("NewLine after ! with no space after"){  
         file result = formatText("!");
-        REQUIRE(result.getline(0) == "!\n");
+        REQUIRE(result.getline(0) == "!");
+        REQUIRE(result.getline(1) == "");
     }
     SECTION("NewLine after ! with surrounding text"){
         file result = formatText("a!b");
-        REQUIRE(result.getline(0) == "a!\nb");
+        REQUIRE(result.getline(0) == "a!");
+        REQUIRE(result.getline(1) == "b");
     }
     SECTION("NewLine after ! with surrounding numbers"){
         file result = formatText("1!2");
-        REQUIRE(result.getline(0) == "1!\n2");
+        REQUIRE(result.getline(0) == "1!");
+        REQUIRE(result.getline(1) == "2");
     }
     SECTION("NewLine after ! after long scentence"){
         file result = formatText("This is a simulated long scentence that is just for testing purposes, if you intend to derive meaning from this, you are doing it wrong! ");
-        REQUIRE(result.getline(0) == "This is a simulated long scentence that is just for testing purposes, if you intend to derive meaning from this, you are doing it wrong!\n ");
+        REQUIRE(result.getline(0) == "This is a simulated long scentence that is just for testing purposes, if you intend to derive meaning from this, you are doing it wrong!");
+        REQUIRE(result.getline(1) == " ");
     }
     SECTION("NewLine after ! multiple in one line"){
         file result = formatText("! ! ! ");
-        REQUIRE(result.getline(0) == "!\n !\n !\n ");
+        REQUIRE(result.getline(0) == "!");
+        REQUIRE(result.getline(1) == " !");
+        REQUIRE(result.getline(2) == " !");
+        REQUIRE(result.getline(3) == " ");
+
     }
 }
 
@@ -138,27 +154,35 @@ TEST_CASE( "NewLine after !", "[rules]" ) {
 TEST_CASE( "NewLine after ?", "[rules]" ) {
     SECTION("Simple ? with space after"){
         file result = formatText("? ");
-        REQUIRE(result.getline(0) == "?\n ");
+        REQUIRE(result.getline(0) == "?");
+        REQUIRE(result.getline(1) == " ");
     }   
     SECTION("NewLine after ? with no space after"){  
         file result = formatText("?");
-        REQUIRE(result.getline(0) == "?\n");
+        REQUIRE(result.getline(0) == "?");
+        REQUIRE(result.getline(1) == "");
     }
     SECTION("NewLine after ? with surrounding text"){
         file result = formatText("a?b");
-        REQUIRE(result.getline(0) == "a?\nb");
+        REQUIRE(result.getline(0) == "a?");
+        REQUIRE(result.getline(1) == "b");
     }
     SECTION("NewLine after ? with surrounding numbers"){
         file result = formatText("1?2");
-        REQUIRE(result.getline(0) == "1?\n2");
+        REQUIRE(result.getline(0) == "1?");
+        REQUIRE(result.getline(1) == "2");
     }
     SECTION("NewLine after ? after long scentence"){
         file result = formatText("This is a simulated long scentence that is just for testing purposes, if you intend to derive meaning from this, you are doing it wrong? ");
-        REQUIRE(result.getline(0) == "This is a simulated long scentence that is just for testing purposes, if you intend to derive meaning from this, you are doing it wrong?\n ");
+        REQUIRE(result.getline(0) == "This is a simulated long scentence that is just for testing purposes, if you intend to derive meaning from this, you are doing it wrong?");
+        REQUIRE(result.getline(1) == " ");
     }
     SECTION("NewLine after ? multiple in one line"){
         file result = formatText("? ? ? ");
-        REQUIRE(result.getline(0) == "?\n ?\n ?\n ");
+        REQUIRE(result.getline(0) == "?");
+        REQUIRE(result.getline(1) == " ?");
+        REQUIRE(result.getline(2) == " ?");
+        REQUIRE(result.getline(3) == " ");
     }
 }
 
@@ -196,35 +220,45 @@ TEST_CASE( "Space after %", "[rules]" ){
 TEST_CASE( "newline line before section", "[rules]" ) {
     SECTION("newline before one section"){
         file result = formatText("\\section");
-        REQUIRE(result.getline(0) == "\n\\section");
+        REQUIRE(result.getline(0) == "");
+        REQUIRE(result.getline(1) == "\\section");
     }
     SECTION("only one newline before two section on same line"){
         file result = formatText("\\section\\section");
-        REQUIRE(result.getline(0) == "\n\\section\\section");
+        REQUIRE(result.getline(0) == "");
+        REQUIRE(result.getline(1) == "\\section\\section");
     }
     SECTION("multiple newlines before two sections on seperate lines"){
         file input;
-        input.addline("\\section");
-        input.addline("\\section");
+        input.addLine("\\section");
+        input.addLine("\\section");
         file result = formatText(input);
-        REQUIRE(fileToString(result) == "\n\\section\n\n\\section");
+        REQUIRE(result.getline(0) == "");
+        REQUIRE(result.getline(1) == "\\section");
+        REQUIRE(result.getline(2) == "");
+        REQUIRE(result.getline(3) == "\\section");
     }
 }
 
 TEST_CASE( "newline line before chapter", "[rules]" ) {
     SECTION("newline before one chapter"){
         file result = formatText("\\chapter");
-        REQUIRE(result.getline(0) == "\n\\chapter");
+        REQUIRE(result.getline(0) == "");
+        REQUIRE(result.getline(1) == "\\chapter");
     }
     SECTION("only one newline before two chapters on same line"){
         file result = formatText("\\chapter\\chapter");
-        REQUIRE(result.getline(0) == "\n\\chapter\\chapter");
+        REQUIRE(result.getline(0) == "");
+        REQUIRE(result.getline(1) == "\\chapter\\chapter");
     }
     SECTION("multiple newlines before two chapters on seperate lines"){
         file input;
-        input.addline("\\chapter");
-        input.addline("\\chapter");
+        input.addLine("\\chapter");
+        input.addLine("\\chapter");
         file result = formatText(input);
-        REQUIRE(fileToString(result) == "\n\\chapter\n\n\\chapter");
+        REQUIRE(result.getline(0) == "");
+        REQUIRE(result.getline(1) == "\\chapter");
+        REQUIRE(result.getline(2) == "");
+        REQUIRE(result.getline(3) == "\\chapter");
     }
 }
