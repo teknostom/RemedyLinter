@@ -68,8 +68,9 @@ public:
     }
 
     std::string removefromline(int i, int c, int l = 1){
+
         if(c == 0){
-            f[i] = f[i].substr(1);
+            f[i] = f[i].substr(l);
         }
         else if(c+r < (int)f[i].length()){
             f[i] = f[i].substr(0,c) + "" + f[i].substr(c+l);

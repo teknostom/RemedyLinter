@@ -16,7 +16,7 @@ private:
             std::wcout << s.c_str() << std::endl;
             break;
         case 1:
-            s = "[" + std::to_string(file) + "/" + std::to_string(files) + "] File has been written. {" + input + "}";
+            s = "[" + std::to_string(file) + "/" + std::to_string(files) + "] File has been written. {" + output + "}";
             std::wcout << s.c_str() << std::endl;
 
             break;
@@ -26,7 +26,7 @@ private:
     }
 
     void print(int step, int totalSteps){
-        std::cout << "[" << step << "/" << totalSteps << "] Rule is beening applied. {" << input << "}" << std::endl;
+        std::cout << "[" << step << "/" << totalSteps << "] Rule is being applied. {" << input << "}" << std::endl;
     }
 public:
     Progress(bool printMain, bool printFull) : printMain(printMain), input(""), output(""), printFull(printFull){};

@@ -6,9 +6,9 @@
 
 Rules getrules(){
     Rules r = Rules();
+    r.addRule(0, ". ", 0, "\n", 0, "%");
     r.addRule(0, " ", 3, "", 1, "\t");
     r.addRule(0, "\t", 3, "", 1, " ");
-    r.addRule(0, ". ", 0, "\n", 0, "%");
     r.addRule(0, "?", 0, "\n", 0, "%");
     r.addRule(0, "!", 0, "\n", 0, "%");
     r.addRule(0, "%", 0, " ", 0, "%");
@@ -24,7 +24,7 @@ file formatText(std::string s){
     Rules r = getrules();
     Progress p = Progress(false, false);
     f.addLine(s);
-    fo.formatFile(f,r, p);
+    fo.format(f,r,p, false);
     return f;
 }
 
@@ -32,7 +32,7 @@ file formatText(file input){
     Formatter fo = Formatter();
     Rules r = getrules();
     Progress p = Progress(false, false);
-    fo.formatFile(input,r,p);
+    fo.format(input,r,p, false);
     return input;
 }
 
@@ -85,6 +85,7 @@ TEST_CASE( "tab should not exist before text", "[rules]" ){
 TEST_CASE( "Newlines with .", "[rules]" ){
     SECTION("Simple . with space after"){
         file result = formatText(". ");
+        std::cout << "testeasdjfaskdfj"  << std::endl;
         REQUIRE(result.getline(0) == ". ");
         REQUIRE(result.getline(1) == "");
     }   

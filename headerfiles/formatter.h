@@ -6,27 +6,128 @@
 #include "rule.h"
 #include "file.h"
 #include "progress.h"
+#include "formattingFixes.h"
 
 class Formatter{
     public:
-    
-std::string fileToString(file input){
-    std::string res = "";
-    for(int i = 0; i < input.getlinecount(); i++){
-        res += input.getline(i) + ((i<input.getlinecount() - 1) ? "\n" : "");
-    }
-    
-    return res;
-}
-    Formatter(){
 
-    };
-    file formatFile(file f, Rules rules, Progress prog, bool debug = false){
+    Formatter(){};
+
+    bool match(file f, Rule currentRule, formattingFixes* ff){
+        for (int currentLine = 0; currentLine < f.getlinecount(); currentLine++) {
+            std::string line = f.getline(currentLine);
+            std::string triggerUp = currentRule.problem.substr(0, currentRule.problem.find(" "));
+            std::string triggerDown = currentRule.problem.substr(currentRule.problem.find(" ")+1);
+
+            for(int linePos = 0; linePos < (int)line.length(); linePos++){
+                bool Stop = (currentRule.stoptype == 0 && line.substr(linePos,currentRule.stopclause.length()) == currentRule.stopclause);
+                /*if(!Stop) Stop = (currentRule.stoptype == 1 && (currentRule.problem != line.substr(linePos,currentRule.problem.length())));
+bool Stop = (currentRule.stoptype == 1 && (currentRule.problem != line.substr(linePos,currentRule.problem.length())));
+*/              
+                if(currentRule.stoptype == 1 && currentRule.stopclause == line.substr(linePos,currentRule.stopclause.length()))
+                    linePos+=(int)currentRule.stopclause.length();
+                Stop = (currentRule.stoptype == 1 && (currentRule.problem != line.substr(linePos,currentRule.problem.length())));
+
+                if(currentRule.type != 1 && currentRule.problem == line.substr(linePos,currentRule.problem.length())){
+                    ff->addFix(currentLine, linePos, currentRule);
+                } else if(currentRule.type == 1){
+                    //std::cout << "'" <<triggerUp << "'" << std::endl;
+                    if(line.substr(linePos,triggerUp.length()) == triggerUp){
+                        ff->addFix(currentLine, linePos, currentRule, 1);
+
+                    }
+                    if(line.substr(linePos,triggerDown.length()) == triggerDown){
+                        ff->addFix(currentLine, linePos, currentRule, -1);
+                    }
+                } 
+                if(Stop) linePos = line.length();
+            }
+            
+        }
+        return (ff->getNumRules() != 0 && currentRule.stoptype != 0 && currentRule.fix.length() < currentRule.problem.length()) ? true : false;
+    }
+
+    void fix(file f, formattingFixes* ff){
+        int lineDisplacement = 0;
+        int charDisplacement = 0;
+        int currentLine = -1;
+        int rc = 0;
+
+        for(int i = 0; i < ff->getNumRules(); i++){
+
+
+            if(rc>0 && ff->getLine(i) - 1 != currentLine){
+                std::cout << "'" <<currentLine - ff->getLine(i) << "'" << "'" <<rc << "'" <<  std::endl;
+
+                for(int k = currentLine + 1; k < ff->getLine(i); k++){
+                    for(int j = 0; j < rc; j++)
+                        f.addtoline(k, 0, "\t");
+                }
+            }
+            if(currentLine != ff->getLine(i)){
+                charDisplacement = 0;
+                currentLine = ff->getLine(i);
+            }
+            Rule currentRule = ff->getRule(i);
+            if(currentRule.type == 1){
+                if(ff->getUpDown(i) < 0){
+                    rc += ff->getUpDown(i);
+                }
+                for(int j = 0; j < rc; j++)
+                    f.addtoline(currentLine, 0, "\t");
+            }else{
+            switch(currentRule.fixtype){
+                // Add at problem
+                case 0:
+                    f.addtoline(currentLine, ff->getPos(i) + charDisplacement, currentRule.fix);
+                    charDisplacement += currentRule.fix.length();
+                    break;
+                // Add at start of line
+                case 1:
+                    f.addtoline(currentLine, 0 + charDisplacement, currentRule.fix);
+                    charDisplacement += currentRule.fix.length();
+                    break;
+                // Add at end of line
+                case 2:
+                    f.addtoline(currentLine, f.getline(i).length(), currentRule.fix);
+                    break;
+                // Replace at problem
+                case 3:
+                    f.removefromline(currentLine, ff->getPos(i) + charDisplacement, currentRule.problem.length());
+                    //charDisplacement -= -2;
+                    f.addtoline(currentLine, ff->getPos(i) + charDisplacement, currentRule.fix);
+                    //charDisplacement += currentRule.fix.length() - 2;
+                    break;
+                default:
+                    break;
+            }}
+            if(ff->getUpDown(i) > 0){
+                rc += ff->getUpDown(i);
+            }
+            if(currentRule.fix == "\n"){
+                lineDisplacement++;
+                charDisplacement = 0 - ff->getPos(i);
+            }
+        }
+    }
+
+    void format(file f, Rules rules, Progress prog, bool debug = false){
         // Loop through all Rules
+        bool repeated = false;
         for(int rule = 0; rule < rules.getNumOfRules(); rule++){
-            //if(debug)
-              //  std::cout << "["<<rule+1<<"/" << rules.getNumOfRules() <<"] Rules have been formatted. "<< ((rule+1 < rules.getNumOfRules()) ? "\r" : "\n");
-            prog.PrintRule(rule+1);
+            formattingFixes* ff = new formattingFixes();
+            Rule currentRule = rules.getRule(rule);
+            if(!repeated)prog.PrintRule(rule+1);
+            repeated = match(f, currentRule, ff);
+            if(repeated)
+            rule --;
+            fix(f, ff);
+            delete ff;
+        }
+    }
+
+    file formatFile(file f, Rules rules, bool debug = false){
+        for(int rule = 0; rule < rules.getNumOfRules(); rule++){
             // Get current rule
             Rule currentrule = rules.getNextRule();
             // Check if the current rule is of type replace

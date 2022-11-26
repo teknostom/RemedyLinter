@@ -173,6 +173,10 @@ public:
         exit(0);
     }
 
+    Rule getRule(int index){
+        return r[index];
+    }
+
     void addRule(int ruletype, std::string rule, int fixtype, std::string fix, int stoptype, std::string stoptrigger){
         if(rules+1>=rulespace){
             addRuleSpace();

@@ -27,7 +27,7 @@ int main(int argc, char **argv)
     //format file
     flags.setTimeFormatting();
     p.PrintIn(1);
-    workingFile = f.formatFile(workingFile, r, p, flags.debug);
+    f.format(workingFile, r, p, flags.debug);
 
     //Write file
     flags.setTimeWrite();
@@ -40,7 +40,6 @@ int main(int argc, char **argv)
     _setmode(_fileno(stdout), _O_U8TEXT);
 
     p.PrintOut(1);
-    std::wcout << "test" << std::endl;
     workingFile.del();
     return 0;
 }

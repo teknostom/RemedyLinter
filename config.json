@@ -1,5 +1,14 @@
 { 
     "Rules" : [
+        
+    { 
+        "problemtype": "READ_ALL",
+        "problem": ". ",
+        "fixtype": "FIX_AT_PROBLEM",
+        "fix": "\n",
+        "stoptype": "STOP_AT_MATCH",
+        "stop": "%"
+    },
     { 
         "problemtype": "READ_ALL",
         "problem": " ",
@@ -18,7 +27,7 @@
     },
     { 
         "problemtype": "READ_ALL",
-        "problem": "% ",
+        "problem": " %",
         "fixtype": "REPLACE_AT_PROBLEM",
         "fix": "%",
         "stoptype": "DONT_STOP",
@@ -26,7 +35,7 @@
     },
     { 
         "problemtype": "READ_ALL",
-        "problem": " %",
+        "problem": "% ",
         "fixtype": "REPLACE_AT_PROBLEM",
         "fix": "%",
         "stoptype": "DONT_STOP",
@@ -47,14 +56,6 @@
         "fix": "%",
         "stoptype": "DONT_STOP",
         "stop": ""
-    },
-    { 
-        "problemtype": "READ_ALL",
-        "problem": ". ",
-        "fixtype": "FIX_AT_PROBLEM",
-        "fix": "\n",
-        "stoptype": "STOP_AT_MATCH",
-        "stop": "%"
     },
     { 
         "problemtype": "READ_ALL",
@@ -97,7 +98,7 @@
         "stop": "%"
     },
     { 
-        "problemtype": "READ_ALL_RUNNING_COUNT",
+        "problemtype": "READ_ALL_RUNNING_COUNT", 
         "problem": "\\begin \\end",
         "fixtype": "FIX_AT_START",
         "fix": "\n",
