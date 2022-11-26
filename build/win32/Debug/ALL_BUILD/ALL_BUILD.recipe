@@ -2,10 +2,10 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
-      <FullPath>C:\Users\evald\Desktop\Cpp\cpp\build\Debug\ZERO_CHECK</FullPath>
+      <FullPath>C:\Users\evald\Desktop\Cpp\cpp\build\Debug\remedy.exe</FullPath>
     </ProjectOutput>
     <ProjectOutput>
-      <FullPath>C:\Users\evald\Desktop\Cpp\cpp\build\Debug\linter.exe</FullPath>
+      <FullPath>C:\Users\evald\Desktop\Cpp\cpp\build\Debug\testing.exe</FullPath>
     </ProjectOutput>
     <ProjectOutput>
       <FullPath>C:\Users\evald\Desktop\Cpp\cpp\build\Debug\ALL_BUILD</FullPath>

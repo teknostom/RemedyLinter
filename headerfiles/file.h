@@ -39,7 +39,7 @@ public:
             return f[i];
         if(i < l && l >= 0){
         }
-        std::cout << "ERROR: line out of range";
+        std::cout << "ERROR: line out of range" << std::endl;
         exit(0);
     }
 

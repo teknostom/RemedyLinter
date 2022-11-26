@@ -3,14 +3,6 @@
         
     { 
         "problemtype": "READ_ALL",
-        "problem": ". ",
-        "fixtype": "FIX_AT_PROBLEM",
-        "fix": "\n",
-        "stoptype": "STOP_AT_MATCH",
-        "stop": "%"
-    },
-    { 
-        "problemtype": "READ_ALL",
         "problem": " ",
         "fixtype": "REPLACE_AT_PROBLEM",
         "fix": "",
@@ -24,6 +16,14 @@
         "fix": "",
         "stoptype": "SKIP_AT_MATCH",
         "stop": " "
+    },
+    { 
+        "problemtype": "READ_ALL",
+        "problem": ". ",
+        "fixtype": "FIX_AT_PROBLEM",
+        "fix": "\n",
+        "stoptype": "STOP_AT_MATCH",
+        "stop": "%"
     },
     { 
         "problemtype": "READ_ALL",

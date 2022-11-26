@@ -6,9 +6,10 @@
 
 Rules getrules(){
     Rules r = Rules();
-    r.addRule(0, ". ", 0, "\n", 0, "%");
     r.addRule(0, " ", 3, "", 1, "\t");
     r.addRule(0, "\t", 3, "", 1, " ");
+    r.addRule(0, " %", 0, "%", 0, "%");
+    r.addRule(0, ". ", 0, "\n", 0, "%");
     r.addRule(0, "?", 0, "\n", 0, "%");
     r.addRule(0, "!", 0, "\n", 0, "%");
     r.addRule(0, "%", 0, " ", 0, "%");
@@ -22,7 +23,7 @@ file formatText(std::string s){
     file f = file();
     Formatter fo = Formatter();
     Rules r = getrules();
-    Progress p = Progress(false, false);
+    Progress p = Progress(false, false, "test", "test", r.getNumOfRules(), 1);
     f.addLine(s);
     fo.format(f,r,p, false);
     return f;
@@ -85,7 +86,6 @@ TEST_CASE( "tab should not exist before text", "[rules]" ){
 TEST_CASE( "Newlines with .", "[rules]" ){
     SECTION("Simple . with space after"){
         file result = formatText(". ");
-        std::cout << "testeasdjfaskdfj"  << std::endl;
         REQUIRE(result.getline(0) == ". ");
         REQUIRE(result.getline(1) == "");
     }   
@@ -103,6 +103,8 @@ TEST_CASE( "Newlines with .", "[rules]" ){
     }
     SECTION("NewLine after . after long scentence"){
         file result = formatText("This is a simulated long scentence that is just for testing purposes, if you intend to derive meaning from this, you are doing it wrong. ");
+        std::cout << "testeasdjfaskdfj '"  << fileToString(result) << "'" << std::endl;
+
         REQUIRE(result.getline(0) == "This is a simulated long scentence that is just for testing purposes, if you intend to derive meaning from this, you are doing it wrong. ");
         REQUIRE(result.getline(1) == "");
     }
@@ -114,7 +116,6 @@ TEST_CASE( "Newlines with .", "[rules]" ){
         REQUIRE(result.getline(3) == "");
     }
 }
-
 TEST_CASE( "NewLine after !", "[rules]" ) {
     SECTION("Simple ! with space after"){
         file result = formatText("! ");
@@ -145,8 +146,7 @@ TEST_CASE( "NewLine after !", "[rules]" ) {
         file result = formatText("! ! ! ");
         REQUIRE(result.getline(0) == "!");
         REQUIRE(result.getline(1) == " !");
-        REQUIRE(result.getline(2) == " !");
-        REQUIRE(result.getline(3) == " ");
+        REQUIRE(result.getline(2) == " ! ");
 
     }
 }
@@ -182,8 +182,7 @@ TEST_CASE( "NewLine after ?", "[rules]" ) {
         file result = formatText("? ? ? ");
         REQUIRE(result.getline(0) == "?");
         REQUIRE(result.getline(1) == " ?");
-        REQUIRE(result.getline(2) == " ?");
-        REQUIRE(result.getline(3) == " ");
+        REQUIRE(result.getline(2) == " ? ");
     }
 }
 
@@ -217,7 +216,6 @@ TEST_CASE( "Space after %", "[rules]" ){
         REQUIRE(result.getline(0) == "% %%%%%");
     }
 }
-
 TEST_CASE( "newline line before section", "[rules]" ) {
     SECTION("newline before one section"){
         file result = formatText("\\section");

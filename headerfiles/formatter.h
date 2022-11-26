@@ -9,6 +9,16 @@
 #include "formattingFixes.h"
 
 class Formatter{
+    private:
+    
+    std::string fileToString(file input){
+        std::string res = "";
+        for(int i = 0; i < input.getlinecount(); i++){
+            res += input.getline(i) + ((i<input.getlinecount() - 1) ? "\n" : "");
+        }
+        
+        return res;
+    }
     public:
 
     Formatter(){};
@@ -26,7 +36,7 @@ bool Stop = (currentRule.stoptype == 1 && (currentRule.problem != line.substr(li
 */              
                 if(currentRule.stoptype == 1 && currentRule.stopclause == line.substr(linePos,currentRule.stopclause.length()))
                     linePos+=(int)currentRule.stopclause.length();
-                Stop = (currentRule.stoptype == 1 && (currentRule.problem != line.substr(linePos,currentRule.problem.length())));
+                if(!Stop)Stop = (currentRule.stoptype == 1 && (currentRule.problem != line.substr(linePos,currentRule.problem.length())));
 
                 if(currentRule.type != 1 && currentRule.problem == line.substr(linePos,currentRule.problem.length())){
                     ff->addFix(currentLine, linePos, currentRule);
@@ -57,7 +67,6 @@ bool Stop = (currentRule.stoptype == 1 && (currentRule.problem != line.substr(li
 
 
             if(rc>0 && ff->getLine(i) - 1 != currentLine){
-                std::cout << "'" <<currentLine - ff->getLine(i) << "'" << "'" <<rc << "'" <<  std::endl;
 
                 for(int k = currentLine + 1; k < ff->getLine(i); k++){
                     for(int j = 0; j < rc; j++)
@@ -79,34 +88,37 @@ bool Stop = (currentRule.stoptype == 1 && (currentRule.problem != line.substr(li
             switch(currentRule.fixtype){
                 // Add at problem
                 case 0:
-                    f.addtoline(currentLine, ff->getPos(i) + charDisplacement, currentRule.fix);
-                    charDisplacement += currentRule.fix.length();
+                    charDisplacement+=currentRule.problem.length();
+                    f.addtoline(currentLine + lineDisplacement, ff->getPos(i) + charDisplacement, currentRule.fix);
                     break;
                 // Add at start of line
                 case 1:
-                    f.addtoline(currentLine, 0 + charDisplacement, currentRule.fix);
-                    charDisplacement += currentRule.fix.length();
+                    charDisplacement+=currentRule.problem.length();
+                    f.addtoline(currentLine + lineDisplacement, 0, currentRule.fix);
                     break;
                 // Add at end of line
                 case 2:
-                    f.addtoline(currentLine, f.getline(i).length(), currentRule.fix);
+                    charDisplacement+=currentRule.problem.length();
+                    f.addtoline(currentLine + lineDisplacement, f.getline(i).length(), currentRule.fix);
                     break;
                 // Replace at problem
                 case 3:
-                    f.removefromline(currentLine, ff->getPos(i) + charDisplacement, currentRule.problem.length());
+                    f.removefromline(currentLine + lineDisplacement, ff->getPos(i) + charDisplacement, currentRule.problem.length());
+                    
                     //charDisplacement -= -2;
-                    f.addtoline(currentLine, ff->getPos(i) + charDisplacement, currentRule.fix);
+                    f.addtoline(currentLine + lineDisplacement, ff->getPos(i) + charDisplacement, currentRule.fix);
                     //charDisplacement += currentRule.fix.length() - 2;
+                    
                     break;
                 default:
                     break;
             }}
+                if(currentRule.fix == "\n"){
+                    lineDisplacement ++;
+                    charDisplacement -= f.getline(ff->getLine(i)).length() * 2;
+                }
             if(ff->getUpDown(i) > 0){
                 rc += ff->getUpDown(i);
-            }
-            if(currentRule.fix == "\n"){
-                lineDisplacement++;
-                charDisplacement = 0 - ff->getPos(i);
             }
         }
     }

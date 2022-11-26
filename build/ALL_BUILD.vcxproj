@@ -108,9 +108,9 @@
   <ItemGroup>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="C:\Users\evald\Desktop\Cpp\cpp\build\linter.vcxproj">
-      <Project>{6639D915-CC93-337F-AB36-94F38C862A84}</Project>
-      <Name>linter</Name>
+    <ProjectReference Include="C:\Users\evald\Desktop\Cpp\cpp\build\remedy.vcxproj">
+      <Project>{F7D3F95A-B818-3617-A597-CFAA801BC6E6}</Project>
+      <Name>remedy</Name>
     </ProjectReference>
     <ProjectReference Include="C:\Users\evald\Desktop\Cpp\cpp\build\testing.vcxproj">
       <Project>{27B7A836-B4F6-3B8C-9929-B8A88B4C766C}</Project>
