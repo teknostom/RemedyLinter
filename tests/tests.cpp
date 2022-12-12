@@ -25,7 +25,7 @@ file formatText(std::string s){
     Rules r = getrules();
     Progress p = Progress(false, false, "test", "test", r.getNumOfRules(), 1);
     f.addLine(s);
-    fo.format(f,r,p, false);
+    fo.format(&f,r,p, false);
     return f;
 }
 
@@ -33,7 +33,7 @@ file formatText(file input){
     Formatter fo = Formatter();
     Rules r = getrules();
     Progress p = Progress(false, false);
-    fo.format(input,r,p, false);
+    fo.format(&input,r,p, false);
     return input;
 }
 
@@ -103,7 +103,6 @@ TEST_CASE( "Newlines with .", "[rules]" ){
     }
     SECTION("NewLine after . after long scentence"){
         file result = formatText("This is a simulated long scentence that is just for testing purposes, if you intend to derive meaning from this, you are doing it wrong. ");
-        std::cout << "testeasdjfaskdfj '"  << fileToString(result) << "'" << std::endl;
 
         REQUIRE(result.getline(0) == "This is a simulated long scentence that is just for testing purposes, if you intend to derive meaning from this, you are doing it wrong. ");
         REQUIRE(result.getline(1) == "");

@@ -16,13 +16,13 @@ int main(int argc, char **argv)
     flags.flagsToRules(argc, argv);
     Rules r = Rules(flags.config);
     Formatter f = Formatter();
-    file workingFile = file();
+    file* workingFile = new file();
     Progress p = Progress(flags.debug, flags.debug, flags.filename, flags.output, r.getNumOfRules(), 1);
     
     
     //Read file;
     flags.setTimeRead();
-    workingFile.ReadFile(flags.filename);
+    workingFile->ReadFile(flags.filename);
 
     //format file
     flags.setTimeFormatting();
@@ -31,7 +31,7 @@ int main(int argc, char **argv)
 
     //Write file
     flags.setTimeWrite();
-    workingFile.WriteFile(flags.output);
+    workingFile->WriteFile(flags.output);
 
     //End
     flags.setTimeEnd();
@@ -40,6 +40,7 @@ int main(int argc, char **argv)
     _setmode(_fileno(stdout), _O_U8TEXT);
 
     p.PrintOut(1);
-    workingFile.del();
+    workingFile->del();
+    delete workingFile;
     return 0;
 }

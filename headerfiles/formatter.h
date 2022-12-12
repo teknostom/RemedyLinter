@@ -23,17 +23,14 @@ class Formatter{
 
     Formatter(){};
 
-    bool match(file f, Rule currentRule, formattingFixes* ff){
-        for (int currentLine = 0; currentLine < f.getlinecount(); currentLine++) {
-            std::string line = f.getline(currentLine);
+    bool match(file* f, Rule currentRule, formattingFixes* ff){
+        for (int currentLine = 0; currentLine < f->getlinecount(); currentLine++) {
+            std::string line = f->getline(currentLine);
             std::string triggerUp = currentRule.problem.substr(0, currentRule.problem.find(" "));
             std::string triggerDown = currentRule.problem.substr(currentRule.problem.find(" ")+1);
 
             for(int linePos = 0; linePos < (int)line.length(); linePos++){
                 bool Stop = (currentRule.stoptype == 0 && line.substr(linePos,currentRule.stopclause.length()) == currentRule.stopclause);
-                /*if(!Stop) Stop = (currentRule.stoptype == 1 && (currentRule.problem != line.substr(linePos,currentRule.problem.length())));
-bool Stop = (currentRule.stoptype == 1 && (currentRule.problem != line.substr(linePos,currentRule.problem.length())));
-*/              
                 if(currentRule.stoptype == 1 && currentRule.stopclause == line.substr(linePos,currentRule.stopclause.length()))
                     linePos+=(int)currentRule.stopclause.length();
                 if(!Stop)Stop = (currentRule.stoptype == 1 && (currentRule.problem != line.substr(linePos,currentRule.problem.length())));
@@ -41,7 +38,6 @@ bool Stop = (currentRule.stoptype == 1 && (currentRule.problem != line.substr(li
                 if(currentRule.type != 1 && currentRule.problem == line.substr(linePos,currentRule.problem.length())){
                     ff->addFix(currentLine, linePos, currentRule);
                 } else if(currentRule.type == 1){
-                    //std::cout << "'" <<triggerUp << "'" << std::endl;
                     if(line.substr(linePos,triggerUp.length()) == triggerUp){
                         ff->addFix(currentLine, linePos, currentRule, 1);
 
@@ -57,7 +53,7 @@ bool Stop = (currentRule.stoptype == 1 && (currentRule.problem != line.substr(li
         return (ff->getNumRules() != 0 && currentRule.stoptype != 0 && currentRule.fix.length() < currentRule.problem.length()) ? true : false;
     }
 
-    void fix(file f, formattingFixes* ff){
+    void fix(file* f, formattingFixes* ff){
         int lineDisplacement = 0;
         int charDisplacement = 0;
         int currentLine = -1;
@@ -70,7 +66,7 @@ bool Stop = (currentRule.stoptype == 1 && (currentRule.problem != line.substr(li
 
                 for(int k = currentLine + 1; k < ff->getLine(i); k++){
                     for(int j = 0; j < rc; j++)
-                        f.addtoline(k, 0, "\t");
+                        f->addtoline(k, 0, "\t");
                 }
             }
             if(currentLine != ff->getLine(i)){
@@ -83,30 +79,30 @@ bool Stop = (currentRule.stoptype == 1 && (currentRule.problem != line.substr(li
                     rc += ff->getUpDown(i);
                 }
                 for(int j = 0; j < rc; j++)
-                    f.addtoline(currentLine, 0, "\t");
+                    f->addtoline(currentLine, 0, "\t");
             }else{
             switch(currentRule.fixtype){
                 // Add at problem
                 case 0:
                     charDisplacement+=currentRule.problem.length();
-                    f.addtoline(currentLine + lineDisplacement, ff->getPos(i) + charDisplacement, currentRule.fix);
+                    f->addtoline(currentLine + lineDisplacement, ff->getPos(i) + charDisplacement, currentRule.fix);
                     break;
                 // Add at start of line
                 case 1:
                     charDisplacement+=currentRule.problem.length();
-                    f.addtoline(currentLine + lineDisplacement, 0, currentRule.fix);
+                    f->addtoline(currentLine + lineDisplacement, 0, currentRule.fix);
                     break;
                 // Add at end of line
                 case 2:
                     charDisplacement+=currentRule.problem.length();
-                    f.addtoline(currentLine + lineDisplacement, f.getline(i).length(), currentRule.fix);
+                    f->addtoline(currentLine + lineDisplacement, f->getline(i).length(), currentRule.fix);
                     break;
                 // Replace at problem
                 case 3:
-                    f.removefromline(currentLine + lineDisplacement, ff->getPos(i) + charDisplacement, currentRule.problem.length());
+                    f->removefromline(currentLine + lineDisplacement, ff->getPos(i) + charDisplacement, currentRule.problem.length());
                     
                     //charDisplacement -= -2;
-                    f.addtoline(currentLine + lineDisplacement, ff->getPos(i) + charDisplacement, currentRule.fix);
+                    f->addtoline(currentLine + lineDisplacement, ff->getPos(i) + charDisplacement, currentRule.fix);
                     //charDisplacement += currentRule.fix.length() - 2;
                     
                     break;
@@ -115,7 +111,7 @@ bool Stop = (currentRule.stoptype == 1 && (currentRule.problem != line.substr(li
             }}
                 if(currentRule.fix == "\n"){
                     lineDisplacement ++;
-                    charDisplacement -= f.getline(ff->getLine(i)).length() * 2;
+                    charDisplacement -= f->getline(ff->getLine(i)).length() * 2;
                 }
             if(ff->getUpDown(i) > 0){
                 rc += ff->getUpDown(i);
@@ -123,7 +119,7 @@ bool Stop = (currentRule.stoptype == 1 && (currentRule.problem != line.substr(li
         }
     }
 
-    void format(file f, Rules rules, Progress prog, bool debug = false){
+    void format(file* f, Rules rules, Progress prog, bool debug = false){
         // Loop through all Rules
         bool repeated = false;
         for(int rule = 0; rule < rules.getNumOfRules(); rule++){

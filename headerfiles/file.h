@@ -99,11 +99,6 @@ public:
         f[lineNumber] = "";
         l++;
         std::cout << this->getline(0) << std::endl;
-        /*if(l>=maxLines){
-            expandStorage();
-        }
-        f[l] = line;
-        l++;*/
     }
 
     void ReadFile(std::string filename) {
